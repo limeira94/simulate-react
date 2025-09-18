@@ -16,3 +16,14 @@ Como o React faz para persistir o estado?
 3. A função `setState` - a segunda parte do array retornado por `useState` é uma função que faz duas coisas.
 	- atualiza o valor do estado naquele "slot" na memória interna do React.
 	- enfileira uma nova renderização para o componente, garantido que a interface do usuário seja atualizada com o novo valor.
+
+## Lógica por trás do `useEffect` 
+O useffect é formado por um `setup code` o return `cleanup code`  e uma `list dependencies`
+
+O `useState` é a memória de um componente, o `useEffect` é a sua lista de tarefas pós renderização.
+
+O `useEffect` permite agendar uma função (efeito) para ser executada depois que o componente ja foi renderizado na tela.
+Os três principais uso:
+- `useEffect(function, [])` - A lista vazia diz "Execute esta tarefa apenas uma vez, depois da primeira renderização".
+- `useEffect(function, [var1, var2]` - a lista com dependência diz "execute esta tarefa depois da primeira render, e depois só execute novamente var1 ou var 2 se tiveram mudado"
+- `useEffect(function)` - Sem lista, executa tarefa depois de toda e qualquer renderização

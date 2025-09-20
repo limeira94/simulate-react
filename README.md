@@ -27,3 +27,25 @@ Os três principais uso:
 - `useEffect(function, [])` - A lista vazia diz "Execute esta tarefa apenas uma vez, depois da primeira renderização".
 - `useEffect(function, [var1, var2]` - a lista com dependência diz "execute esta tarefa depois da primeira render, e depois só execute novamente var1 ou var 2 se tiveram mudado"
 - `useEffect(function)` - Sem lista, executa tarefa depois de toda e qualquer renderização
+
+## Como funciona o `useRef`
+Pense como uma caixa de ferramenta que você pode anexar seu componente.
+O que quer que você guarde dentro dela, permanecerá lá entre as renderizações, o componente pode ser renderização diversas vezes mas o conteúdo continuará os mesmo.
+Mudar um valor dentro do `useRef` não causa uma nova renderização
+
+O `useRef` retorna um objeto com uma única propriedade `.current` é dentro do `ref.current` que o seu valor é armazenado
+
+** Dois principais casos de uso**
+1. Acessar elementos do DOM
+2. Guardar valores mutáveis sem re-renderizar
+
+### Tabela Comparativa: `useState` vs. `useRef`
+
+| Característica              | `useState` (O Quadro Branco)                        | `useRef` (A Gaveta Secreta)                             |
+| :-------------------------- | :-------------------------------------------------- | :------------------------------------------------------ |
+| **Aciona Re-renderização?** | **Sim**, ao chamar a função `set...()`              | **Não**, ao modificar a propriedade `.current`          |
+| **Como o valor é atualizado?**| Indiretamente, através da função `setState()`       | Diretamente, modificando `ref.current = novoValor`      |
+| **Principal Caso de Uso** | Dados que afetam diretamente a interface (UI)       | Referências a elementos DOM ou dados internos (timers)  |
+| **Valor Retornado** | Um array: `[valor, funcaoParaMudarOValor]`          | Um objeto: `{ current: valor }`                         |
+| **Natureza** | Declarativa (pede ao React para mudar e re-renderizar)| Imperativa (muda o valor diretamente, sem avisar o React)|
+

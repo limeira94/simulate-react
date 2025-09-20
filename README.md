@@ -50,7 +50,7 @@ O `useRef` retorna um objeto com uma única propriedade `.current` é dentro do 
 | **Natureza** | Declarativa (pede ao React para mudar e re-renderizar)| Imperativa (muda o valor diretamente, sem avisar o React)|
 
 
-### Lógica por trás do `useMemo`
+## Lógica por trás do `useMemo`
 O objetivo é otimização de desempenho
 
 Imagine um componente precisa filtrar 10mil itens ou fazer cálculos pesados. Se esse cálculo for refeito toda vez que re renderizar a aplicação se tornará lentra.
@@ -59,7 +59,7 @@ Aplica o conceito de memoization
 2. da próxima vez que a função for chamada com os mesmo argumentos simplesmente retorna o que guardou.
 
 
-### Lógica `useCallback`
+## Lógica `useCallback`
 é um hook que memoiza a própria função
 
 Retorna a mesma instância (o mesmo objeto) da função entre as renderizações a menos que uma de suas dependências tenha mudado.
@@ -74,3 +74,22 @@ const memoizedCallback = useMemo(() => minhaFuncao, [a, b]);
 ```
 
 Mesmo funcionamento por debaixo dos panos com o useMemo
+
+A melhor forma de decidir é se perguntar:  O que eu estou tentando impedir que seja recriado a cada nova renderização?
+
+### Tabela de Decisão Rápida: `useMemo` vs. `useCallback`
+
+| Se você precisa... | Use `useMemo` | Use `useCallback` |
+| :--- | :--- | :--- |
+| Otimizar um **cálculo que demora**? | ✅ **Sim** | ❌ Não |
+| Passar uma **função** para um filho com `React.memo`? | ❌ Não (sintaxe errada para isso) | ✅ **Sim** |
+| O que você quer "salvar"? | O **resultado** de uma função (um valor, objeto, array) | A **própria função** (sua referência na memória) |
+
+Cenários `useMemo`:
+- Filtrar, ordenar ou mapear listas muito grandes
+- Cálculos matemáticos ou de dados pesados
+- gerar objetos ou arrays complexos
+
+Cenários `useCallback`:
+- Passar funções para componentes filhos otimizados com `React.memo`
+- quando a função é uma dependência de outro hook como `useEffect`

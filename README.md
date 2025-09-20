@@ -49,3 +49,28 @@ O `useRef` retorna um objeto com uma única propriedade `.current` é dentro do 
 | **Valor Retornado** | Um array: `[valor, funcaoParaMudarOValor]`          | Um objeto: `{ current: valor }`                         |
 | **Natureza** | Declarativa (pede ao React para mudar e re-renderizar)| Imperativa (muda o valor diretamente, sem avisar o React)|
 
+
+### Lógica por trás do `useMemo`
+O objetivo é otimização de desempenho
+
+Imagine um componente precisa filtrar 10mil itens ou fazer cálculos pesados. Se esse cálculo for refeito toda vez que re renderizar a aplicação se tornará lentra.
+Aplica o conceito de memoization
+1. execute uma função e guarde o resultado
+2. da próxima vez que a função for chamada com os mesmo argumentos simplesmente retorna o que guardou.
+
+
+### Lógica `useCallback`
+é um hook que memoiza a própria função
+
+Retorna a mesma instância (o mesmo objeto) da função entre as renderizações a menos que uma de suas dependências tenha mudado.
+
+```
+// useCallback memoiza a função `minhaFuncao`
+const memoizedCallback = useCallback(minhaFuncao, [a, b]);
+
+// useMemo pode fazer a mesma coisa, mas memoizando o *retorno* da função externa,
+// que neste caso é a própria `minhaFuncao`.
+const memoizedCallback = useMemo(() => minhaFuncao, [a, b]);
+```
+
+Mesmo funcionamento por debaixo dos panos com o useMemo
